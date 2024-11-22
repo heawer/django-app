@@ -1,0 +1,26 @@
+.task-title {
+  color: white;
+  text-decoration: none;
+}
+
+.task-title:hover {
+  text-decoration: underline;
+}
+
+.bold {
+  font-weight: bolder;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.dropdown-menu:not(.btn-sm) {
+  animation: 0.40s slideup;
+}
+
+@keyframes slideup {
+  from {
+    transform: translateY(10%);
+  }
+}

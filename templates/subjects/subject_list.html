@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="d-flex flex-row justify-content-between flex-wrap mb-3 gap-3">
+    <header>
+      <h1>Subjects</h1>
+
+      {% if user.role == 'teacher' %}
+        <div>
+          <p>You are managing {{ subjects|length }} subjects.</p>
+        </div>
+        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSubjectModal">
+          <i class="fa-solid fa-plus"></i> Add Subject
+        </a>
+      {% else %}
+        <p>Currently enrolled in {{ enrolled_subjects|length }} subjects.</p>
+      {% endif %}
+    </header>
+  </div>
+
+  <div class="d-flex flex-row gap-3 flex-wrap">
+    {% for subject in subjects %}
+      <div class="d-flex flex-row mb-5 gap-1">
+        <div class="d-flex card">
+          <div class="d-flex flex-column card-body gap-1">
+            <h2>
+              <a class="task-title" href="{% url 'subject_details' subject.id %}">{{ subject.title }}</a>
+            </h2>
+
+            {% if user.role == 'teacher' %}
+              <div class="d-flex flex-row justify-content-between gap-2">
+                <a href="javascript:void(0);" onclick="showQRCode('{% url 'start_lesson' subject.id %}', '{{ subject.title }}')" class="btn btn-outline-info">
+                  <i class="fa-solid fa-qrcode"></i>
+                </a>
+                <a href="{% url 'edit_subject' subject.id %}" class="btn btn-outline-warning">
+                  <i class="fa-solid fa-edit"></i>
+                </a>
+                <a href="{% url 'delete_subject' subject.id %}" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this subject?')">
+                  <i class="fa-solid fa-trash"></i>
+                </a>
+              </div>
+            {% else %}
+              {% if subject in enrolled_subjects %}
+                <span class="badge bg-success">Enrolled</span>
+              {% else %}
+                <a href="{% url 'enroll' subject.id %}" class="btn btn-outline-success">
+                  <i class="fa-solid fa-user-plus"></i> Enroll
+                </a>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="italic">No subjects available.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Add Subject Modal -->
+  {% if user.role == 'teacher' %}
+    <div class="modal fade" id="addSubjectModal" tabindex="-1" aria-labelledby="addSubjectModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addSubjectModalLabel">Add New Subject</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="qrModalLabel"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body d-flex flex-column justify-content-center align-items-center">
+            <p>Students will need to scan this QR code to attend the lesson.</p>
+            <img id="qrCodeImage" src="" alt="QR Code" class="img-fluid">
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

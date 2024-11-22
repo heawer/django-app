@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>My Subjects</h1>
+  <div class="d-flex flex-row gap-3 flex-wrap">
+    {% for subject in enrolled_subjects %}
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">{{ subject.name }}</h5>
+          <p class="card-text">Description: {{ subject.description }}</p>
+          <p>Teacher: {{ subject.teacher.username }}</p>
+        </div>
+      </div>
+    {% empty %}
+      <p>No subjects enrolled yet.</p>
+    {% endfor %}
+  </div>
+{% endblock %}
