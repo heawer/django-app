@@ -28,6 +28,20 @@ class Subject(models.Model):
 class Enrollment(models.Model):
     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, related_name='enrollments')
     subject = models.ForeignKey(Subject, on_delete=CASCADE, related_name='enrollments')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student.username} - {self.subject.title}"
+
+
+class Attendance(models.Model):
+    student = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=CASCADE, related_name='attendances')
+    subject = models.ForeignKey(
+        Subject, on_delete=CASCADE, related_name='attendances')
     attended = models.BooleanField(default=False)
     attendance_time = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student.username} - {self.subject.title} - {'Attended' if self.attended else 'Not Attended'}"

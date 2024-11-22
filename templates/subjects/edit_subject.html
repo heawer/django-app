@@ -1,47 +1,48 @@
-{% extends 'base.html' %}
-{% load form_tags %}
+{% extends 'base.html' %} 
+{% load form_tags %} 
 
 {% block content %}
-    <div class="container mt-1">
-        {% block formtitle %}
-            <h1>Edit Subject: {{ subject.title }}</h1>
-        {% endblock %}
+  <div class="container mt-1">
+    {% block formtitle %}
+      <h1>Edit Subject: {{ subject.title }}</h1>
+    {% endblock %} 
 
-        {% if form.errors %}
-            {% for field, errors in form.errors.items %}
-                {% for error in errors %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ field.label }}: {{ error }}
-                    </div>
-                {% endfor %}
-            {% endfor %}
-        {% endif %}
+    {% if form.errors %} 
+      {% for field, errors in form.errors.items%} 
+        {% for error in errors %}
+          <div class="alert alert-danger" role="alert">
+            {{ field.label }}: {{ error }}
+          </div>
+        {% endfor %} 
+      {% endfor %} 
+    {% endif %}
 
-        <form method="post">
-            {% csrf_token %}
+    <form method="post">
+      {% csrf_token %} 
 
-            {% for field in form %}
-                <div class="mb-3">
-                    <label for="id_{{ field.name }}" class="form-label">{{ field.label }}</label>
-                    {{ field }}
+      {% for field in form %}
+        <div class="mb-3">
+          <label for="id_{{ field.name }}" class="form-label">{{ field.label }}</label>
 
-                    {% if field.help_text %}
-                        <small style="color: grey">{{ field.help_text }}</small>
-                    {% endif %}
-                </div>
-            {% endfor %}
+          {{ field }} 
 
-            <button type="submit" class="btn btn-primary">
-                {% block formbutton %} 
-                    <i class="fa-solid fa-pen"></i> Update
-                {% endblock %}
-            </button>
-        </form>
-
-        <div class="mt-4">
-            <a href="{% url 'subject_list' %}" class="btn btn-secondary">
-                <i class="fa-solid fa-arrow-left"></i> Back to Subject List
-            </a>
+          {% if field.help_text %}
+            <small style="color: grey">{{ field.help_text }}</small>
+          {% endif %}
         </div>
+      {% endfor %}
+
+      <button type="submit" class="btn btn-primary">
+        {% block formbutton %}
+          <i class="fa-solid fa-pen"></i> Update 
+        {% endblock %}
+      </button>
+    </form>
+
+    <div class="mt-4">
+      <a href="{% url 'subject_list' %}" class="btn btn-secondary">
+        <i class="fa-solid fa-arrow-left"></i> Back to Subject List
+      </a>
     </div>
+  </div>
 {% endblock %}
