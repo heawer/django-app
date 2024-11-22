@@ -17,7 +17,6 @@
   const onScanSuccess = (decodedText) => {
     console.log(`QR Code scanned: ${decodedText}`);
 
-    // Stop the scanner after successful scan
     qrReader.stop().then(() => {
       console.log("QR scanner stopped.");
       toggleButtons(false);
@@ -25,7 +24,6 @@
       console.warn("Failed to stop the scanner: ", err);
     });
 
-    // Redirect user to the URL encoded in the QR code
     window.location.href = decodedText;
   };
 
@@ -43,13 +41,13 @@
     qrReaderContainer.style.display = "block";
 
     const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-    const qrBoxSize = Math.min(viewportWidth * 0.8, 250); // Responsive square QR box
+    const qrBoxSize = Math.min(viewportWidth * 0.8, 250);
 
     qrReader.start(
-      { facingMode: "environment" }, // Use the rear camera
+      { facingMode: "environment" },
       {
         fps: 10,
-        qrbox: { width: qrBoxSize, height: qrBoxSize }, // Square area
+        qrbox: { width: qrBoxSize, height: qrBoxSize },
       },
       onScanSuccess,
       onScanFailure
