@@ -160,8 +160,7 @@ def start_lesson(request, subject_id):
     domain = settings.ALLOWED_HOSTS[0]
     protocol = "https" if request.is_secure() else "http"
 
-    attendance_url = f'{
-        protocol}://{domain}/subjects/attendance/{subject.id}/{get_random_string(length=32)}/'
+    attendance_url = f'{protocol}://{domain}/subjects/attendance/{subject.id}/{get_random_string(length=32)}/'
 
     qr = qrcode.QRCode(
         version=1,
