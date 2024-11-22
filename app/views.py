@@ -2,6 +2,7 @@ import socket
 import subprocess
 import qrcode
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -155,9 +156,12 @@ def my_subjects(request):
 def start_lesson(request, subject_id):
     subject = get_object_or_404(Subject, id=subject_id)
 
-    local_ip = socket.gethostbyname(socket.gethostname())
 
-    attendance_url = f'http://{local_ip}:8000/subjects/attendance/{subject.id}/{get_random_string(length=32)}/'
+    domain = settings.ALLOWED_HOSTS[0]
+    protocol = "https" if request.is_secure() else "http"
+
+    attendance_url = f'{
+        protocol}://{domain}/subjects/attendance/{subject.id}/{get_random_string(length=32)}/'
 
     qr = qrcode.QRCode(
         version=1,
