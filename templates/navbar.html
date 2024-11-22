@@ -15,7 +15,12 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Add QR Code Scanner link -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'scan_qr_code' %}">Scan QR</a>
+        </li>
+      </ul>
 
       {% if user.is_authenticated %}
       <div class="d-flex flex-row justify-content-end gap-2">
@@ -23,8 +28,9 @@
         
         <form id="logout-form" method="post" action="{% url 'logout' %}">
           {% csrf_token %}
-
-          <button type="submit" class="btn btn-danger"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+          <button type="submit" class="btn btn-danger">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+          </button>
         </form>
       </div>
       {% endif %}

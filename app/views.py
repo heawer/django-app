@@ -240,3 +240,8 @@ def mark_attendance(request, subject_id, token):
 
     messages.success(request, "Attendance successfully marked!")
     return redirect('subject_details', subject_id=subject.id)
+
+
+@login_required
+def scan_qr_code(request):
+    return render(request, 'subjects/scan_qr_code.html')

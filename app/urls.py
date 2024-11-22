@@ -11,4 +11,5 @@ urlpatterns = [
     path('subjects/start_lesson/<int:subject_id>/', views.start_lesson, name='start_lesson'),
     path('subjects/edit/<int:subject_id>/', views.edit_subject, name='edit_subject'),
     path('subjects/delete/<int:subject_id>/', views.delete_subject, name='delete_subject'),
+    path('subjects/scan_qr_code/', views.scan_qr_code, name='scan_qr_code'),
 ]
