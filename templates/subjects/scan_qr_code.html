@@ -8,9 +8,6 @@
     <button id="stop-scan" class="btn btn-danger" style="display: none;">Stop QR Code Scan</button>
   </div>
   <div id="qr-reader" style="width: 100%; max-width: 500px; display: none;" class="mt-3 mx-auto"></div>
-  <div id="qr-result" class="mt-3 alert alert-info d-none text-center">
-    <strong>QR Code Data:</strong> <span id="qr-data"></span>
-  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/html5-qrcode/minified/html5-qrcode.min.js"></script>
@@ -18,8 +15,7 @@
   const qrReader = new Html5Qrcode("qr-reader");
 
   const onScanSuccess = (decodedText) => {
-    document.getElementById("qr-data").textContent = decodedText;
-    document.getElementById("qr-result").classList.remove("d-none");
+    console.log(`QR Code scanned: ${decodedText}`);
 
     // Stop the scanner after successful scan
     qrReader.stop().then(() => {
@@ -29,7 +25,7 @@
       console.warn("Failed to stop the scanner: ", err);
     });
 
-    // Redirect user to the attendance URL
+    // Redirect user to the URL encoded in the QR code
     window.location.href = decodedText;
   };
 
